@@ -37,6 +37,7 @@ import BottomNav, { TabKey } from "../components/BottomNav";
 // import HomeStories from "../components/HomeStories";
 import HomePosts from "../components/HomePosts";
 import ProfilePage from "../components/ProfilePage";
+import HomeHeader from "../components/HomeHeader";
 
 export default function Index() {
   const [tab, setTab] = useState<TabKey>("home");
@@ -49,6 +50,7 @@ export default function Index() {
           {" "}
           {/* Scroll area*/}
           <ScrollView showsVerticalScrollIndicator={false}>
+            <HomeHeader />
             <HomePosts />
 
             <View style={{ height: 20 }} />

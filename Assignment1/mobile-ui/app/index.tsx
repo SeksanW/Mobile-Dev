@@ -23,68 +23,68 @@ Assignment1/mobile-ui/assets/IMG_1658.png
 */
 
 import React, { useState } from "react";
-import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  Alert,
+} from "react-native";
 
 import BottomNav, { TabKey } from "../components/BottomNav";
 // import HomeHeader from "../components/HomeHeader";
 // import HomeStories from "../components/HomeStories";
-// import HomePosts from "../components/HomePosts";
+import HomePosts from "../components/HomePosts";
 import ProfilePage from "../components/ProfilePage";
 
 export default function Index() {
-    const [tab, setTab] = useState<TabKey>("home");
-return (
+  const [tab, setTab] = useState<TabKey>("home");
+  return (
     // Container for the whole screen
     //has the alert button and the bottom nav
     <View style={styles.container}>
-        {tab === "home" ? (
-        <>  {/* Scroll area*/}
-            <ScrollView showsVerticalScrollIndicator={false}>
-            <TouchableOpacity
-                style={styles.alertBtn}
-                onPress={() => Alert.alert("Alert Button pressed")}>
-                <Text style={styles.alertText}>
-                    Alert
-                </Text>
-            </TouchableOpacity>
+      {tab === "home" ? (
+        <>
+          {" "}
+          {/* Scroll area*/}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <HomePosts />
 
             <View style={{ height: 20 }} />
-            </ScrollView>
+          </ScrollView>
         </>
-        ) : (
+      ) : (
         <>
-            <ProfilePage />
+          <ProfilePage />
 
-            <TouchableOpacity
-                style={styles.alertBtn}
-                onPress={() => Alert.alert("Alert Button pressed")}>
-                <Text style={styles.alertText}>
-                    Alert
-                </Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.alertBtn}
+            onPress={() => Alert.alert("Alert Button pressed")}
+          >
+            <Text style={styles.alertText}>Alert</Text>
+          </TouchableOpacity>
         </>
-        )}
-        {/* Bottom navigation */}
-        <BottomNav activeTab={tab} onChangeTab={setTab} />
+      )}
+      {/* Bottom navigation */}
+      <BottomNav activeTab={tab} onChangeTab={setTab} />
     </View>
-);
+  );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: "#fff", paddingBottom: 56 },
+  container: { flex: 1, backgroundColor: "#fff", paddingBottom: 56 },
 
-
-    alertBtn: {
-        margin: 12,
-        paddingVertical: 14,
-        borderRadius: 10,
-        backgroundColor: "#2E6BFF",
-        alignItems: "center",
-    },
-    alertText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "700",
-    },
+  alertBtn: {
+    margin: 12,
+    paddingVertical: 14,
+    borderRadius: 10,
+    backgroundColor: "#2E6BFF",
+    alignItems: "center",
+  },
+  alertText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
+  },
 });
-

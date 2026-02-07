@@ -40,14 +40,6 @@ return (
         {tab === "home" ? (
         <>  {/* Scroll area*/}
             <ScrollView showsVerticalScrollIndicator={false}>
-            <TouchableOpacity
-                style={styles.alertBtn}
-                onPress={() => Alert.alert("Alert Button pressed")}>
-                <Text style={styles.alertText}>
-                    Alert
-                </Text>
-            </TouchableOpacity>
-
             <View style={{ height: 20 }} />
             </ScrollView>
         </>

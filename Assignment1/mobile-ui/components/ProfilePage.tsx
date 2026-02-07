@@ -1,14 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList} from "react-native";
 
 export default function ProfilePage() {
+    const posts = Array.from({ length: 18 });
 return (
-    <View style={styles.container}>
+    <ScrollView 
+        style={styles.container} 
+        showsVerticalScrollIndicator={false}>
         <View style={styles.topBar}>
         <Text style={styles.topIcon}>＋</Text>
 
         <View style={styles.titleWrap}>
-            <Text style={styles.lock}>🔒</Text>
+            <Text style={styles.lock}></Text>
             <Text style={styles.username}>asian_guy_nyi</Text>
             <Text style={styles.down}>⌄</Text>
         </View>
@@ -42,7 +45,67 @@ return (
                 <Text style={styles.btnText}>+</Text>
             </View>
         </View>
-    </View>
+
+        {/* Discover people section */}
+        <View style={styles.discoverWrap}>
+            <Text style={[styles.discoverWrapText, { fontWeight: "900" }]}>
+                Discover People
+            </Text>
+            <Text style={styles.seeAllText}>
+                See all
+            </Text>
+        </View>
+        {/* Follow suggestions section with scrollable portfolio inside discver people box */}
+        <View style={[styles.fallowSuggest, { height: 200 }]}>
+        <ScrollView horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.suggestRow}>
+    
+            {Array.from({ length: 10 }).map((_, i) => (
+            <View key={i} style={styles.profileCard}>
+                <View style={styles.avatarPlaceholder} />
+                <View style={styles.namePlaceholder} />
+            </View>
+            ))}
+        </ScrollView>
+        </View>
+        {/* Profile interactions row for selecting between post, retween,etc*/}
+        <View style={styles.profileInteractions}>
+            <TouchableOpacity style={styles.tabItem}>
+                <Text style={[styles.interactionText, styles.activeText]}>
+                    Posts
+                </Text>
+            <View style={styles.activeUnderline} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.tabItem}>
+                <Text style={styles.interactionText}>
+                    Tagged
+                </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.tabItem}>
+                <Text style={styles.interactionText}>
+                    Share
+                </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.tabItem}>
+                <Text style={styles.interactionText}>
+                    Retweet
+                </Text>
+            </TouchableOpacity>
+        </View>
+        {/* Posts grid */}
+        <FlatList
+            data={posts}
+            numColumns={3}
+            keyExtractor={(_, index) => index.toString()}
+            scrollEnabled={false}
+            renderItem={() => (
+            <View style={styles.postBox} />
+        )}/>
+    </ScrollView>
     );
 }
 
@@ -61,7 +124,7 @@ const styles = StyleSheet.create({
         paddingBottom: 12,
     },
 
-  // Top bar
+    // Top bar
     topBar: {
         height: 56,
         paddingHorizontal: 12,
@@ -86,7 +149,7 @@ const styles = StyleSheet.create({
     },
     down: { fontSize: 18, marginTop: 4 },
 
-  // Header row
+    // Header row
     headerRow: {
         flexDirection: "row",
         paddingHorizontal: 12,
@@ -108,7 +171,7 @@ const styles = StyleSheet.create({
     statNumber: { fontSize: 20, fontWeight: "800", color: "#111" },
     statLabel: { fontSize: 14, color: "#111" },
 
-  // Name + bio
+    // Name + bio
     name: {
         paddingHorizontal: 12,
         paddingTop: 10,
@@ -123,7 +186,7 @@ const styles = StyleSheet.create({
         color: "#111",
     },
 
-  // Buttons
+    // Buttons
     buttonsRow: {
         flexDirection: "row",
         gap: 8,
@@ -142,14 +205,99 @@ const styles = StyleSheet.create({
     btnSmall: { width: 44 },
     btnText: { fontWeight: "700", color: "#111" },
 
-  // Placeholder
-    placeholder: {
+    // discoverWrap
+    discoverWrap: {
         marginTop: 18,
         marginHorizontal: 12,
         padding: 12,
         borderRadius: 12,
-        borderWidth: 1,
-        borderColor: "#E6E6E6",
     },
-    placeholderText: { color: "#555" },
+    discoverWrapText: { color: "#555" },
+
+    // "see all" text in discoverWrap
+    seeAllText: {
+        position: "absolute",
+        right: 12,
+        top: 12,
+        color: "#2E6BFF",
+        fontWeight: "700",
+    },
+    
+    // followSuggest
+    fallowSuggest: {
+        marginTop: 12,
+        marginHorizontal: 12,
+    },
+    // row in suggestRow
+    suggestRow: {
+        paddingHorizontal: 12,
+        paddingBottom: 8,
+        gap: 8,
+    },
+    // each profile card in suggestRow
+    profileCard: {
+        width: 120,
+        borderRadius: 12,
+        backgroundColor: "#F0F0F0",
+        alignItems: "center",
+        padding: 12,
+        borderBlockColor: "#a0a0a0",
+        borderWidth: 1,
+    },
+    //place holder for porfile picture
+    avatarPlaceholder: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        backgroundColor: "#D0D0D0",
+    },
+    // placeholder for names in profile card
+    namePlaceholder: {
+        marginTop: 40,
+        width: "80%",
+        height: 12,
+        borderRadius: 6,
+        backgroundColor: "#D0D0D0",
+    },
+
+    // profile interactions row (posts, tagged, share, retweet)
+    profileInteractions: {
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        borderBottomColor: "#222",
+    },
+
+    tabItem: {
+        flex: 1,
+        alignItems: "center",
+        paddingVertical: 12,
+    },
+
+    interactionText: {
+        fontSize: 14,
+        color: "#000000",
+        fontWeight: "500",
+    },
+
+    activeText: {
+        color: "#000000",
+        fontWeight: "700",
+    },
+
+    activeUnderline: {
+        marginTop: 6,
+        height: 2,
+        width: "60%",
+        backgroundColor: "#000000",
+        borderRadius: 2,
+    },
+
+    // placeholder for posts in the grid
+    postBox: {
+        flex: 1,
+        aspectRatio: 1,
+        backgroundColor: "#222",
+        margin: 1,
+    },
+
 });

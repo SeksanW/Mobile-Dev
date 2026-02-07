@@ -2,7 +2,7 @@
 Mobile Application Development CPRG 303-C Group 12
 Members:
 - 930016 - Seksan Wangkhiree
-- student number  - John Mckay
+- 000944628  - John Mckay
 - student number - Yufeng Fan
 
 ASSIGNMENT:

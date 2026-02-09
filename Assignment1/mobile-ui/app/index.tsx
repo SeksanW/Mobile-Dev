@@ -30,11 +30,11 @@ import {
   TouchableOpacity,
   Text,
   Alert,
+  Platform,
+  Pressable,
 } from "react-native";
 
 import BottomNav, { TabKey } from "../components/BottomNav";
-// import HomeHeader from "../components/HomeHeader";
-// import HomeStories from "../components/HomeStories";
 import HomePosts from "../components/HomePosts";
 import ProfilePage from "../components/ProfilePage";
 import HomeHeader from "../components/HomeHeader";
@@ -46,9 +46,9 @@ export default function Index() {
     // Container for the whole screen
     //has the alert button and the bottom nav
     <View style={styles.container}>
+      <View style={styles.content}>
       {tab === "home" ? (
         <>
-          {" "}
           {/* Scroll area*/}
           <ScrollView showsVerticalScrollIndicator={false}>
             <HomeHeader />
@@ -59,33 +59,53 @@ export default function Index() {
           </ScrollView>
         </>
       ) : (
-        <>
-          <ProfilePage />
-
-          <TouchableOpacity
-            style={styles.alertBtn}
-            onPress={() => Alert.alert("Alert Button pressed")}
-          >
-            <Text style={styles.alertText}>Alert</Text>
-          </TouchableOpacity>
-        </>
+        <ProfilePage />
       )}
+      </View>
       {/* Bottom navigation */}
-      <BottomNav activeTab={tab} onChangeTab={setTab} />
+      <View style={styles.bottomArea}>
+      <BottomNav activeTab={tab} onChangeTab={setTab}/>
+      
+      <Pressable
+        style={({ pressed }) => [styles.alertBtn, pressed && { opacity: 0.7 },]}
+        hitSlop={12}
+        android_ripple={{ color: "#ffffff33" }}
+        onPress={() => {
+        console.log("Alert pressed ✅");
+
+        if (Platform.OS === "web") {
+          window.alert("Alert Button pressed");
+          return;
+        }
+        
+        Alert.alert("Alert", "Alert Button pressed");}}>
+        <Text style={styles.alertText}>Alert</Text>
+      </Pressable>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", paddingBottom: 56 },
+  container: { flex: 1, backgroundColor: "#fff" },
+  content: { flex: 1 },
+  
+  bottomArea: {
+    paddingBottom: 12,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#EDEDED",
+  },
 
   alertBtn: {
-    margin: 12,
+    marginHorizontal: 12,
+    marginBottom: 12,
     paddingVertical: 14,
     borderRadius: 10,
     backgroundColor: "#2E6BFF",
     alignItems: "center",
   },
+  
   alertText: {
     color: "#fff",
     fontSize: 16,

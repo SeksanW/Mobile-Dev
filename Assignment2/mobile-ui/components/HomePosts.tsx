@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import React, { use, useState } from "react";
 
 const HomePosts = () => {
@@ -34,6 +41,11 @@ const HomePosts = () => {
       2: 20,
     },
   );
+
+  const [showComments, setShowComments] = useState<{ [key: number]: boolean }>({
+    1: false,
+    2: false,
+  });
 
   return posts.map((item) => (
     <View key={item.id}>
@@ -106,7 +118,16 @@ const HomePosts = () => {
         </View>
 
         <View style={styles.interactionItem}>
-          <Text style={styles.interactionItemIcon}>💬</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setShowComments((prev) => ({
+                ...prev,
+                [item.id]: !prev[item.id],
+              }));
+            }}
+          >
+            <Text style={styles.interactionItemIcon}>💬</Text>
+          </TouchableOpacity>
           <Text style={styles.interactionItemText}>413</Text>
         </View>
 
@@ -120,6 +141,15 @@ const HomePosts = () => {
           <Text style={styles.interactionItemText}>1,991</Text>
         </View>
       </View>
+      {showComments[item.id] && (
+        <View style={styles.commentBox}>
+          <TextInput
+            style={styles.commentInput}
+            placeholder="Write a comment..."
+            multiline
+          />
+        </View>
+      )}
 
       {/* Post Description and Date Section */}
       <View style={styles.postSection}>
@@ -231,5 +261,17 @@ const styles = StyleSheet.create({
     color: "#6c6969",
     fontSize: 12,
     marginTop: 8,
+  },
+  commentBox: {
+    marginTop: 10,
+  },
+  commentInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 6,
+    padding: 10,
+    margin: 5,
+    minHeight: 80,
+    textAlignVertical: "top",
   },
 });

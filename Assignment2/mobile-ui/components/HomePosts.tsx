@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { use } from "react";
+import React, { use, useState } from "react";
 
 const HomePosts = () => {
   const posts = [
@@ -22,6 +22,19 @@ const HomePosts = () => {
         "https://www.sait.ca/assets/image/news/2024/september/nw-sustainability-eco-ambassadors.jpg",
     },
   ];
+
+  const [likedItems, setLikedItems] = useState<{ [key: number]: boolean }>({
+    1: false,
+    2: false,
+  });
+
+  const [likedCounters, setLikedCounters] = useState<{ [key: number]: number }>(
+    {
+      1: 10,
+      2: 20,
+    },
+  );
+
   return posts.map((item) => (
     <View key={item.id}>
       {/*  Header Section */}
@@ -71,8 +84,25 @@ const HomePosts = () => {
       {/* Interaction Bar */}
       <View style={styles.interactionBar}>
         <View style={styles.interactionItem}>
-          <Text style={styles.interactionItemIcon}>❤️</Text>
-          <Text style={styles.interactionItemText}>16.2K</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setLikedItems((prev) => ({
+                ...prev,
+                [item.id]: !prev[item.id],
+              }));
+              setLikedCounters((prev) => ({
+                ...prev,
+                [item.id]: prev[item.id] + (likedItems[item.id] ? -1 : 1),
+              }));
+            }}
+          >
+            <Text style={styles.interactionItemIcon}>
+              {likedItems[item.id] ? "❤️" : "🤍"}
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.interactionItemText}>
+            {likedCounters[item.id]}
+          </Text>
         </View>
 
         <View style={styles.interactionItem}>

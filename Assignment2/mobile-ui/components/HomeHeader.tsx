@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "900",
     color: "black",
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 25
   },
   plusIco: {
     width: 30,

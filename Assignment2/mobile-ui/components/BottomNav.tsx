@@ -45,7 +45,7 @@ return (
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => onChangeTab("profile")} style={styles.item}>
-            <View style={[styles.avatarRing, activeTab === "profile" && styles.avatarRingActive]}>
+            <View>
                 <Image source={{ uri: "https://www.sait.ca/assets/image/brand-guidelines/logos/logo-catalyst-fullcolour-600x600.jpg" }}
                     style={styles.avatar}
                     resizeMode="cover"/>
@@ -98,4 +98,11 @@ const styles = StyleSheet.create({
         fontWeight: "900",
         marginTop: -1,
     },
+    avatar: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        marginRight: 8,
+        overflow: "hidden"
+    }
 });

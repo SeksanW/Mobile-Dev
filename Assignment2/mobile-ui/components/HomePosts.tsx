@@ -1,11 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput } from "react-native";
+import Svg, { Path } from "react-native-svg";
 import React, { use, useState } from "react";
 
 const HomePosts = () => {
@@ -29,6 +23,10 @@ const HomePosts = () => {
         "https://www.sait.ca/assets/image/news/2024/september/nw-sustainability-eco-ambassadors.jpg",
     },
   ];
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(0);
+
 
   const [likedItems, setLikedItems] = useState<{ [key: number]: boolean }>({
     1: false,
@@ -96,6 +94,7 @@ const HomePosts = () => {
       {/* Interaction Bar */}
       <View style={styles.interactionBar}>
         <View style={styles.interactionItem}>
+          
           <TouchableOpacity
             onPress={() => {
               setLikedItems((prev) => ({
@@ -108,9 +107,14 @@ const HomePosts = () => {
               }));
             }}
           >
-            <Text style={styles.interactionItemIcon}>
-              {likedItems[item.id] ? "❤️" : "🤍"}
-            </Text>
+
+            <Svg width={16} height={16} viewBox="0 0 16 16">
+              <Path
+                  d={likedItems[item.id] ? "M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" : "m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"}
+                  fill={likedItems[item.id] ? "#FF0000" : "#FFFFFF"}
+              />
+              {/* for filled replace d with d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" fill="#FF0000" */}
+            </Svg>
           </TouchableOpacity>
           <Text style={styles.interactionItemText}>
             {likedCounters[item.id]}
@@ -132,7 +136,20 @@ const HomePosts = () => {
         </View>
 
         <View style={styles.interactionItem}>
-          <Text style={styles.interactionItemIcon}>↗️</Text>
+          <TouchableOpacity
+            style={styles.interactionItemIcon}
+            onPress={() => {
+              setSelectedPost(item.id);
+              setModalVisible(true);
+            }}
+          >
+            <Svg width={16} height={16} viewBox="0 0 16 16">
+              <Path
+                d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"
+                fill="#FFFFFF"
+              /> 
+            </Svg>
+          </TouchableOpacity>
           <Text style={styles.interactionItemText}>146</Text>
         </View>
 
@@ -162,6 +179,28 @@ const HomePosts = () => {
         </View>
         <Text style={styles.postDate}>January 27</Text>
       </View>
+
+      {/* Modal for Post Interaction */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Sent!</Text>
+            <TouchableOpacity
+              style={styles.modalCloseBtn}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.modalCloseText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   ));
 };
@@ -234,6 +273,8 @@ const styles = StyleSheet.create({
   },
   interactionItemIcon: {
     fontSize: 18,
+    borderColor: "transparent",
+    backgroundColor: "transparent"
   },
   interactionItemText: {
     color: "#0e0d0d",
@@ -261,6 +302,34 @@ const styles = StyleSheet.create({
     color: "#6c6969",
     fontSize: 12,
     marginTop: 8,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  modalContent: {
+    width: "90%",
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 12,
+  },
+  modalCloseBtn: {
+    backgroundColor: "#0095f6",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  modalCloseText: {
+    color: "#fff",
+    fontWeight: "700"
   },
   commentBox: {
     marginTop: 10,

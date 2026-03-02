@@ -11,9 +11,13 @@ Purpose:
 A profile page component that mimics the Instagram profile screen, including a top bar, user information, follow suggestions, and a grid of posts. The component is designed to be displayed when the "profile" tab is selected in the bottom navigation.
 */
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList, Image} from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList, Image, Switch } from "react-native";
+import { useTheme } from "./ThemeContext";
 
 export default function ProfilePage() {
+    const { theme, toggleTheme } = useTheme();
+    const isDark = theme === "dark";
+
     const posts = [
         {id: 1, image:
             "https://www.sait.ca/assets/image/news/2024/september/nw-sustainability-eco-ambassadors.jpg",
@@ -49,21 +53,23 @@ export default function ProfilePage() {
         { id: 6, name: "tony.stark" },
     ];
 
-
+    
 return (
     <ScrollView 
-        style={styles.container} 
+        style={[
+        styles.container,
+        { backgroundColor: isDark ? "#1C1C1E" : "#fff" }]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.topBar}>
-        <Text style={styles.topIcon}>＋</Text>
+        <Text style={[styles.topIcon, { color: isDark ? "#fff" : "#111" }]}>＋</Text>
 
         <View style={styles.titleWrap}>
             <Text style={styles.lock}></Text>
-            <Text style={styles.username}>asian_guy_nyi</Text>
-            <Text style={styles.down}>⌄</Text>
+            <Text style={[styles.username, { color: isDark ? "#fff" : "#000" }]}>asian_guy_nyi</Text>
+            <Text style={[styles.down, { color: isDark ? "#fff" : "#000" }]}>⌄</Text>
         </View>
 
-        <Text style={styles.topIcon}>≡</Text>
+        <Text style={[styles.topIcon, { color: isDark ? "#fff" : "#111" }]}>≡</Text>
         </View>
 
         <View style={styles.headerRow}>
@@ -72,31 +78,38 @@ return (
             resizeMode="cover"/>
 
             <View style={styles.statsRow}>
-                <Stat number="12" label="posts" />
-                <Stat number="359" label="followers" />
-                <Stat number="581" label="following" />
+                <Stat number="12" label="posts" isDark={isDark} />
+                <Stat number="359" label="followers" isDark={isDark} />
+                <Stat number="581" label="following" isDark={isDark} />
             </View>
         </View>
 
-        <Text style={styles.name}>Sek San Wangkhiree</Text>
-        <Text style={styles.bio}>I live to drift them fork lifts.</Text>
+        <Text style={[styles.name, { color: isDark ? "#fff" : "#000" }]}>Sek San Wangkhiree</Text>
+        <Text style={[styles.bio, { color: isDark ? "#fff" : "#000" }]}>I live to drift them fork lifts.</Text>
+        
+        <View style={{ marginTop: 20, alignItems: "center" }}>
+        <Text style={{ color: isDark ? "#fff" : "#000", marginBottom: 6 }}>
+            Dark Mode
+        </Text>
+        <Switch value={isDark} onValueChange={toggleTheme} />
+        </View>
 
         <View style={styles.buttonsRow}>
-            <View style={[styles.btn, styles.btnWide]}>
-                <Text style={styles.btnText}>Edit profile</Text>
+            <View style={[styles.btn, styles.btnWide, { backgroundColor: isDark ? "#2A2A2C" : "#F2F2F2" }]}>
+                <Text style={[styles.btnText, { color: isDark ? "#fff" : "#000" }]}>Edit profile</Text>
             </View>
 
-            <View style={[styles.btn, styles.btnWide]}>
-                <Text style={styles.btnText}>Share profile</Text>
+            <View style={[styles.btn, styles.btnWide, { backgroundColor: isDark ? "#2A2A2C" : "#F2F2F2" }]}>
+                <Text style={[styles.btnText, { color: isDark ? "#fff" : "#000" }]}>Share profile</Text>
             </View>
 
-            <View style={[styles.btn, styles.btnSmall]}>
-                <Text style={styles.btnText}>+</Text>
+            <View style={[styles.btn, styles.btnSmall, { backgroundColor: isDark ? "#2A2A2C" : "#F2F2F2" }]}>
+                <Text style={[styles.btnText, { color: isDark ? "#fff" : "#000" }]}>+</Text>
             </View>
         </View>
 
         <View style={styles.discoverWrap}>
-            <Text style={[styles.discoverWrapText, { fontWeight: "900" }]}>
+            <Text style={[styles.discoverWrapText, { fontWeight: "900" }, { color: isDark ? "#fff" : "#000" }]}>
                 Discover People
             </Text>
             <Text style={styles.seeAllText}>
@@ -110,13 +123,13 @@ return (
             contentContainerStyle={styles.suggestRow}>
 
         {followSuggestions.map((user) => (
-            <View key={user.id} style={styles.profileCard}>
+            <View key={user.id} style={[styles.profileCard, { backgroundColor: isDark ? "#2A2A2C" : "#F0F0F0" }, { borderColor: isDark ? "#555" : "#a0a0a0" }]}>
                 <Image source={{uri: "https://www.sait.ca/assets/image/brand-guidelines/logos/logo-catalyst-fullcolour-600x600.jpg",}}
                     style={styles.avatarPlaceholder}
                     resizeMode="cover"/>
 
                 <View style={{ flex: 1, justifyContent: "flex-end", width: "100%" }}></View>
-                <Text style={styles.suggestName}>{user.name}</Text>
+                <Text style={[styles.suggestName, { color: isDark ? "#fff" : "#000" }]}>{user.name}</Text>
                 
                 <TouchableOpacity style={styles.followBtn}>
                     <Text style={styles.followText}>Follow</Text>
@@ -127,26 +140,26 @@ return (
         </View>
         <View style={styles.profileInteractions}>
             <TouchableOpacity style={styles.tabItem}>
-                <Text style={[styles.interactionText, styles.activeText]}>
+                <Text style={[styles.interactionText, styles.activeText, { color: isDark ? "#fff" : "#000" }]}>
                     Posts
                 </Text>
             <View style={styles.activeUnderline} />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.tabItem}>
-                <Text style={styles.interactionText}>
+                <Text style={[styles.interactionText, { color: isDark ? "#fff" : "#000" }]}>
                     Tagged
                 </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.tabItem}>
-                <Text style={styles.interactionText}>
+                <Text style={[styles.interactionText, { color: isDark ? "#fff" : "#000" }]}>
                     Share
                 </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.tabItem}>
-                <Text style={styles.interactionText}>
+                <Text style={[styles.interactionText, { color: isDark ? "#fff" : "#000" }]}>
                     Retweet
                 </Text>
             </TouchableOpacity>
@@ -166,11 +179,11 @@ return (
     );
 }
 
-function Stat({ number, label }: { number: string; label: string }) {
+function Stat({ number, label, isDark }: { number: string; label: string; isDark: boolean }) {
 return (
     <View style={styles.stat}>
-        <Text style={styles.statNumber}>{number}</Text>
-        <Text style={styles.statLabel}>{label}</Text>
+        <Text style={[styles.statNumber, { color: isDark ? "#fff" : "#000" }]}>{number}</Text>
+        <Text style={[styles.statLabel, { color: isDark ? "#fff" : "#000" }]}>{label}</Text>
     </View>
     );
 }
@@ -201,7 +214,7 @@ const styles = StyleSheet.create({
     username: {
         fontSize: 26,
         fontWeight: "800",
-        color: "#111",
+        color:"#111",
     },
     down: { fontSize: 18, marginTop: 4 },
 

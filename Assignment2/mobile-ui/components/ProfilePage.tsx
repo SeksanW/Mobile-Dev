@@ -5,8 +5,7 @@ Members:
 - student number  - John Mckay
 - student number - Yufeng Fan
 
-ASSIGNMENT:
-Assignment: Building a Mobile UI with Expo and React Native
+Assignment: Advanced Multi-Screen Mobile Application with Collaborative Navigation 
 
 Purpose:
 A profile page component that mimics the Instagram profile screen, including a top bar, user information, follow suggestions, and a grid of posts. The component is designed to be displayed when the "profile" tab is selected in the bottom navigation.
@@ -96,7 +95,6 @@ return (
             </View>
         </View>
 
-        {/* Discover people section */}
         <View style={styles.discoverWrap}>
             <Text style={[styles.discoverWrapText, { fontWeight: "900" }]}>
                 Discover People
@@ -105,7 +103,7 @@ return (
                 See all
             </Text>
         </View>
-        {/* Follow suggestions section with scrollable portfolio inside discver people box */}
+
         <View style={[styles.fallowSuggest, { height: 200 }]}>
         <ScrollView horizontal 
             showsHorizontalScrollIndicator={false}
@@ -127,7 +125,6 @@ return (
         ))}
         </ScrollView>
         </View>
-        {/* Profile interactions row for selecting between post, retween,etc*/}
         <View style={styles.profileInteractions}>
             <TouchableOpacity style={styles.tabItem}>
                 <Text style={[styles.interactionText, styles.activeText]}>
@@ -155,7 +152,6 @@ return (
             </TouchableOpacity>
         </View>
 
-        {/* Posts grid */}
         <FlatList
             data={posts}
             numColumns={3}
@@ -185,7 +181,6 @@ const styles = StyleSheet.create({
         paddingBottom: 12,
     },
 
-    // Top bar
     topBar: {
         height: 56,
         paddingHorizontal: 12,
@@ -210,7 +205,6 @@ const styles = StyleSheet.create({
     },
     down: { fontSize: 18, marginTop: 4 },
 
-    // Header row
     headerRow: {
         flexDirection: "row",
         paddingHorizontal: 12,
@@ -234,7 +228,6 @@ const styles = StyleSheet.create({
     statNumber: { fontSize: 20, fontWeight: "800", color: "#111" },
     statLabel: { fontSize: 14, color: "#111" },
 
-    // Name + bio
     name: {
         paddingHorizontal: 12,
         paddingTop: 10,
@@ -249,7 +242,6 @@ const styles = StyleSheet.create({
         color: "#111",
     },
 
-    // Buttons
     buttonsRow: {
         flexDirection: "row",
         gap: 8,
@@ -268,7 +260,6 @@ const styles = StyleSheet.create({
     btnSmall: { width: 44 },
     btnText: { fontWeight: "700", color: "#111" },
 
-    // discoverWrap
     discoverWrap: {
         marginTop: 18,
         marginHorizontal: 12,
@@ -277,7 +268,6 @@ const styles = StyleSheet.create({
     },
     discoverWrapText: { color: "#555" },
 
-    // "see all" text in discoverWrap
     seeAllText: {
         position: "absolute",
         right: 12,
@@ -285,21 +275,18 @@ const styles = StyleSheet.create({
         color: "#2E6BFF",
         fontWeight: "700",
     },
-    
-    // followSuggest
+
     fallowSuggest: {
         marginTop: 12,
         marginHorizontal: 12,
     },
 
-    // row in suggestRow
     suggestRow: {
         paddingHorizontal: 12,
         paddingBottom: 8,
         gap: 8,
     },
 
-    // each profile card in suggestRow
     profileCard: {
         width: 120,
         height: 170, 
@@ -311,7 +298,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
 
-    //porfile picture
     avatarPlaceholder: {
         width: 60,
         height: 60,
@@ -319,7 +305,6 @@ const styles = StyleSheet.create({
         overflow: "hidden",
     },
 
-    // profile interactions row (posts, tagged, share, retweet)
     profileInteractions: {
         flexDirection: "row",
         borderBottomWidth: 1,
@@ -351,14 +336,12 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
 
-    // placeholder for posts in the grid
     postImage: {
         flex: 1,
         aspectRatio: 1,
         margin: 1,
     },
 
-    // name text in follow suggestions
     suggestName: {
         marginTop: 10,
         fontSize: 14,
@@ -367,7 +350,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
 
-    // follow button in follow suggestions
     followBtn: {
         marginTop: 8,
         width: "100%",

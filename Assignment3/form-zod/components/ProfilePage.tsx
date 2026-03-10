@@ -5,14 +5,18 @@ Members:
 - student number  - John Mckay
 - student number - Yufeng Fan
 
-Assignment: Advanced Multi-Screen Mobile Application with Collaborative Navigation 
+Assignment: Advanced Form Development and Validation with React Hook Form and Zod
 
 Purpose:
 A profile page component that mimics the Instagram profile screen, including a top bar, user information, follow suggestions, and a grid of posts. The component is designed to be displayed when the "profile" tab is selected in the bottom navigation.
 */
-import React from "react";
+
+import React, { useCallback, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList, Image, Switch } from "react-native";
 import { useTheme } from "./ThemeContext";
+import { router } from "expo-router";
+import { useFocusEffect } from "expo-router";
+import * as storage from "@/lib/storage";
 
 export default function ProfilePage() {
     const { theme, toggleTheme } = useTheme();
@@ -53,7 +57,35 @@ export default function ProfilePage() {
         { id: 6, name: "tony.stark" },
     ];
 
-    
+    const [profileData, setProfileData] = useState({
+    fullName: "Sek San Wangkhiree",
+    userName: "asian_guy_nyi",
+    accountBio: "I live to drift them fork lifts.",
+    });
+
+useFocusEffect(
+    useCallback(() => {
+        const loadProfile = async () => {
+            const data = await storage.get<{
+                fullName: string;
+                email: string;
+                phone: string;
+                userName: string;
+                accountBio: string;
+            }>(storage.STORAGE_KEY.PROFILE);
+
+            if (data) {
+                setProfileData({
+                    fullName: data.fullName,
+                    userName: data.userName,
+                    accountBio: data.accountBio,
+                });
+            }
+        };
+        loadProfile();
+    }, [])
+);
+
 return (
     <ScrollView 
         style={[
@@ -65,11 +97,14 @@ return (
 
         <View style={styles.titleWrap}>
             <Text style={styles.lock}></Text>
-            <Text style={[styles.username, { color: isDark ? "#fff" : "#000" }]}>asian_guy_nyi</Text>
-            <Text style={[styles.down, { color: isDark ? "#fff" : "#000" }]}>⌄</Text>
+            <Text style={[styles.username, { color: isDark ? "#fff" : "#000" }]}>
+                {profileData.userName}
+            </Text>        
         </View>
-
-        <Text style={[styles.topIcon, { color: isDark ? "#fff" : "#111" }]}>≡</Text>
+        
+        <TouchableOpacity onPress={() => router.push("/settings")}>
+            <Text style={[styles.topIcon, { color: isDark ? "#fff" : "#111" }]}>≡</Text>
+        </TouchableOpacity>
         </View>
 
         <View style={styles.headerRow}>
@@ -84,9 +119,14 @@ return (
             </View>
         </View>
 
-        <Text style={[styles.name, { color: isDark ? "#fff" : "#000" }]}>Sek San Wangkhiree</Text>
-        <Text style={[styles.bio, { color: isDark ? "#fff" : "#000" }]}>I live to drift them fork lifts.</Text>
-        
+        <Text style={[styles.name, { color: isDark ? "#fff" : "#000" }]}>
+            {profileData.fullName}
+        </Text>
+
+        <Text style={[styles.bio, { color: isDark ? "#fff" : "#000" }]}>
+            {profileData.accountBio}
+        </Text>
+
         <View style={{ marginTop: 20, alignItems: "center" }}>
         <Text style={{ color: isDark ? "#fff" : "#000", marginBottom: 6 }}>
             Dark Mode

@@ -5,7 +5,7 @@ Members:
 - student number  - John Mckay
 - student number - Yufeng Fan
 
-Assignment: Advanced Multi-Screen Mobile Application with Collaborative Navigation 
+Assignment: Advanced Form Development and Validation with React Hook Form and Zod
 
 Purpose:
 A messages page component that displays a list of chat conversations. The component is designed to be displayed when the "messages" tab is selected in the bottom navigation.

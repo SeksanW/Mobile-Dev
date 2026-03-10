@@ -5,7 +5,7 @@ Members:
 - student number  - John Mckay
 - student number - Yufeng Fan
 
-Assignment: Advanced Multi-Screen Mobile Application with Collaborative Navigation 
+Assignment: Advanced Form Development and Validation with React Hook Form and Zod
 
 Purpose:
 stack navigation flow

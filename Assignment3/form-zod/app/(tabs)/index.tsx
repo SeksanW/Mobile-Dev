@@ -5,7 +5,7 @@ Members:
 - 000944628  - John Mckay
 - student number - Yufeng Fan
 
-ASSIGNMENT:Advanced Multi-Screen Mobile Application with Collaborative Navigation 
+ASSIGNMENT:Advanced Form Development and Validation with React Hook Form and Zod
 */
 import { ScrollView, View, StyleSheet } from "react-native";
 import HomeHeader from "../../components/HomeHeader";

@@ -1,0 +1,15 @@
+1:To get started, run terminal in assignment folder :npx create-expo-app@latest
+
+2:cd Assignemnt1 --> cd mibile-ui
+
+3:npm start or npm run dev,
+
+IF TERMINAL THROW this error when trying to run web 
+Install react-dom@19.1.0, react-native-web@^0.21.0 by running: npx expo install react-dom react-native-web If you're not using web, please ensure you remove the "web" string from the platforms array in the project Expo config.
+
+run this terminal command under /mobile-ui
+:npx expo install react-dom react-native-web
+
+IMAGES WE WILL BE COPYING
+![Assignment1/mobile-ui/assets/IMG_1657.png](../assets/IMG_1657.png)
+![alt text](../assets/IMG_1658.png)

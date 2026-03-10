@@ -72,7 +72,6 @@ export default function SignUpScreen() {
     try {
       await storage.set(storage.STORAGE_KEY.PROFILE, {
         ...data,
-        password: "",
         confirmPassword: "",
       });
 

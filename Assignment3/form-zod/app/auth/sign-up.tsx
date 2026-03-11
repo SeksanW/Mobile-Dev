@@ -27,8 +27,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "../components/FormInput";
-import { useTheme } from "../components/ThemeContext";
+import FormInput from "../../components/FormInput";
+import { useTheme } from "../../components/ThemeContext";
 import * as storage from "@/lib/storage";
 import { useEffect } from "react";
 

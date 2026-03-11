@@ -15,8 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "../components/FormInput";
-import { useTheme } from "../components/ThemeContext";
+import FormInput from "../../components/FormInput";
+import { useTheme } from "../../components/ThemeContext";
 import * as storage from "@/lib/storage";
 
 
@@ -121,7 +121,7 @@ export default function SignIn({ onSuccess }: { onSuccess?: (token: string) => v
 
           <TouchableOpacity
             style={styles.signupLink}
-            onPress={() => router.push("/sign-up")}
+            onPress={() => router.push("/auth/sign-up")}
           >
             <Text style={styles.signupText}> Don't have an account? Sign Up</Text>
           </TouchableOpacity>

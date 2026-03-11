@@ -58,7 +58,7 @@ export default function SettingsScreen() {
   const isDark = theme === "dark";
 
   function handleSignOut() {
-    router.replace("/sign-in");
+    router.replace("/auth/sign-in");
   }
 
   return (

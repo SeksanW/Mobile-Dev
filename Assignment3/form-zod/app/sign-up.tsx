@@ -112,7 +112,7 @@ export default function SignUpScreen() {
         <Text
           style={[styles.headerTitle, { color: isDark ? "#fff" : "#111827" }]}
         >
-          Singup
+          Sign Up
         </Text>
         <View style={styles.iconBtn} />
       </View>

@@ -3,9 +3,10 @@
 // This is just a placeholder for users to access their accoutn settings.
 // Purpose is just to make the app more in line with actual instagram which were cloning.
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { router, Stack } from "expo-router";
+import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../components/ThemeContext";
+import * as storage from "@/lib/storage";
 
 type RowProps = {
   label: string;
@@ -18,7 +19,6 @@ function SettingsRow({ label, subtext, onPress }: RowProps) {
   const isDark = theme === "dark";
 
   return (
-    
     <TouchableOpacity
       style={[
         styles.row,
@@ -56,6 +56,10 @@ function SettingsRow({ label, subtext, onPress }: RowProps) {
 export default function SettingsScreen() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  function handleSignOut() {
+    router.replace("/sign-in");
+  }
 
   return (
     <ScrollView
@@ -106,6 +110,21 @@ export default function SettingsScreen() {
         />
       </View>
 
+      <TouchableOpacity
+        style={[
+          styles.signOutBtn,
+          { backgroundColor: isDark ? "#7f1d1d" : "#ef4444" }
+        ]}
+        onPress={handleSignOut}>
+        <Text
+        style={[
+          styles.signOutText,
+          { color: isDark ? "#ffffff" : "#ffffff" }
+        ]}>
+          Log Out
+        </Text>
+      </TouchableOpacity>
+
       <View
         style={[
           styles.section,
@@ -123,6 +142,7 @@ export default function SettingsScreen() {
         <SettingsRow label="Archive" />
         <SettingsRow label="Your activity" />
         <SettingsRow label="Notifications" />
+        <SettingsRow label="Sign Out" onPress={handleSignOut} />
       </View>
     </ScrollView>
   );
@@ -184,5 +204,18 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 14,
     lineHeight: 20,
+  },
+
+  signOutBtn: {
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 16,
+    marginHorizontal: 12,
+  },
+
+  signOutText: {
+    fontSize: 16,
+    fontWeight: "700",
   },
 });

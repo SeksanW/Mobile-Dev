@@ -13,19 +13,19 @@ import {
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useForm } from "react-hook-form";
-import zod from "zod";
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../components/FormInput";
 import { useTheme } from "../components/ThemeContext";
 import * as storage from "@/lib/storage";
 
 
-const signInSchema = zod.object({
-  email: zod.string().min(1, "Email is required").email("Enter a valid email"),
-  password: zod.string().min(8, "Password must be at least 8 characters"),
+const signInSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Enter a valid email"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-type SignInData = zod.infer<typeof signInSchema>;
+type SignInData = z.infer<typeof signInSchema>;
 
 export default function SignIn({ onSuccess }: { onSuccess?: (token: string) => void }) {
   const { theme } = useTheme();
@@ -48,11 +48,7 @@ export default function SignIn({ onSuccess }: { onSuccess?: (token: string) => v
       onSuccess?.(res.token);
 
       // Immediately route into index.tsx on success
-      try {
-        router.replace("/(tabs)/index");
-      } catch {
-        router.back();
-      }
+      router.replace("/(tabs)");
 
       // keep a small web alert but do not block navigation
       if (Platform.OS === "web") {
@@ -121,6 +117,13 @@ export default function SignIn({ onSuccess }: { onSuccess?: (token: string) => v
             onPress={handleSubmit(onSubmit)}
           >
             <Text style={styles.saveText}>Sign In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.signupLink}
+            onPress={() => router.push("/sign-up")}
+          >
+            <Text style={styles.signupText}> Don't have an account? Sign Up</Text>
           </TouchableOpacity>
 
           <View style={{ height: 40 }} />
@@ -208,5 +211,16 @@ const styles = StyleSheet.create({
     color: "#B00020",
     textAlign: "center",
     marginBottom: 8,
+  },
+
+  signupLink: {
+    marginTop: 16,
+    alignItems: "center",
+  },
+
+  signupText: {
+    color: "#2563eb",
+    fontSize: 14,
+    fontWeight: "600",
   },
 });

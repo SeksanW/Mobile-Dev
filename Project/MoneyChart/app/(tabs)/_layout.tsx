@@ -1,5 +1,7 @@
 import { Tabs } from 'expo-router';
-import { Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
 
 export default function TabsLayout() {
   return (
@@ -9,18 +11,15 @@ export default function TabsLayout() {
         tabBarActiveTintColor: '#3366FF',
         tabBarInactiveTintColor: '#888',
         tabBarStyle: { paddingBottom: 6, height: 60 },
-        tabBarIcon: ({ color, size }: { color: string; size: number }) => {
-          const icons: Record<string, string> = {
-            index: '⊞',
-            expenses: '🗂',
-            budgets: '◑',
-            settings: '⚙',
+        tabBarIcon: ({ color, size, focused }: { color: string; size: number; focused: boolean }) => {
+          const icons: Record<string, { outline: IoniconName; filled: IoniconName }> = {
+            index:    { outline: 'grid-outline',        filled: 'grid' },
+            expenses: { outline: 'receipt-outline',     filled: 'receipt' },
+            budgets:  { outline: 'pie-chart-outline',   filled: 'pie-chart' },
+            settings: { outline: 'settings-outline',    filled: 'settings' },
           };
-          return (
-            <Text style={{ fontSize: size - 4, color }}>
-              {icons[route.name] ?? '●'}
-            </Text>
-          );
+          const tab = icons[route.name] ?? { outline: 'ellipse-outline', filled: 'ellipse' };
+          return <Ionicons name={focused ? tab.filled : tab.outline} size={size} color={color} />;
         },
       })}
     >

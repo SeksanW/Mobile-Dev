@@ -1,8 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const EXPENSES_KEY = 'expenses';
-const BUDGETS_KEY = 'budgets';
-const USER_KEY = 'user';
+const EXPENSES_KEY = "expenses";
+const BUDGETS_KEY = "budgets";
+const USER_KEY = "user";
+const IS_LOGGED_IN_KEY = "isLoggedIn";
 
 export interface Expense {
   id: string;
@@ -43,12 +44,12 @@ export async function addExpense(expense: Expense): Promise<void> {
 
 export async function updateExpense(updated: Expense): Promise<void> {
   const expenses = await getExpenses();
-  await saveExpenses(expenses.map(e => e.id === updated.id ? updated : e));
+  await saveExpenses(expenses.map((e) => (e.id === updated.id ? updated : e)));
 }
 
 export async function deleteExpense(id: string): Promise<void> {
   const expenses = await getExpenses();
-  await saveExpenses(expenses.filter(e => e.id !== id));
+  await saveExpenses(expenses.filter((e) => e.id !== id));
 }
 
 export async function getBudgets(): Promise<Budget[]> {
@@ -68,12 +69,12 @@ export async function addBudget(budget: Budget): Promise<void> {
 
 export async function updateBudget(updated: Budget): Promise<void> {
   const budgets = await getBudgets();
-  await saveBudgets(budgets.map(b => b.id === updated.id ? updated : b));
+  await saveBudgets(budgets.map((b) => (b.id === updated.id ? updated : b)));
 }
 
 export async function deleteBudget(id: string): Promise<void> {
   const budgets = await getBudgets();
-  await saveBudgets(budgets.filter(b => b.id !== id));
+  await saveBudgets(budgets.filter((b) => b.id !== id));
 }
 
 export async function getUser(): Promise<User | null> {
@@ -83,4 +84,13 @@ export async function getUser(): Promise<User | null> {
 
 export async function saveUser(user: User): Promise<void> {
   await AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
+}
+
+export async function getIsLoggedIn(): Promise<boolean> {
+  const data = await AsyncStorage.getItem(IS_LOGGED_IN_KEY);
+  return data === "true";
+}
+
+export async function setIsLoggedIn(loggedIn: boolean): Promise<void> {
+  await AsyncStorage.setItem(IS_LOGGED_IN_KEY, loggedIn.toString());
 }

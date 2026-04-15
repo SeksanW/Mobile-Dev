@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useRouter } from "expo-router";
 import {
   getUser,
@@ -102,6 +103,7 @@ export default function Settings() {
   }
 
   return (
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Money Chart</Text>
@@ -318,10 +320,12 @@ export default function Settings() {
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: "#f5f5f5" },
   container: { flex: 1, backgroundColor: "#f5f5f5" },
   header: { padding: 16, paddingTop: 20 },
   headerTitle: { fontSize: 20, fontWeight: "bold" },

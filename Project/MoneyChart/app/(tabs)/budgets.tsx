@@ -3,6 +3,7 @@ import {
   View, Text, TouchableOpacity, FlatList,
   StyleSheet, Modal, ScrollView, TextInput,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import { getBudgets, addBudget, updateBudget, deleteBudget, getExpenses, Budget, Expense } from '../../lib/storage';
 
@@ -92,7 +93,7 @@ export default function Budgets() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.headerRow}>
         <View>
           <Text style={styles.title}>Budgets</Text>
@@ -210,7 +211,7 @@ export default function Budgets() {
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

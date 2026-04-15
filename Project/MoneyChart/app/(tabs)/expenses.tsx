@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, FlatList,
-  StyleSheet, Modal, ScrollView,
+  StyleSheet, Modal, ScrollView, KeyboardAvoidingView, Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import { getExpenses, addExpense, updateExpense, deleteExpense, Expense } from '../../lib/storage';
 
@@ -94,7 +95,7 @@ export default function Expenses() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.headerRow}>
         <View>
           <Text style={styles.title}>Expenses</Text>
@@ -173,7 +174,10 @@ export default function Expenses() {
       </View>
 
       <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={styles.overlay}>
+        <KeyboardAvoidingView
+          style={styles.overlay}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
           <View style={styles.modal}>
             <TouchableOpacity style={styles.closeBtn} onPress={() => setModalVisible(false)}>
               <Text style={styles.closeText}>✕</Text>
@@ -210,9 +214,9 @@ export default function Expenses() {
               <Text style={styles.submitText}>{editingExpense ? 'Save Changes' : 'Add Expense'}</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
   totalAmount: { fontSize: 18, fontWeight: 'bold' },
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
   modal: { backgroundColor: '#fff', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 24, paddingBottom: 40 },
-  closeBtn: { position: 'absolute', right: 20, top: 20 },
+  closeBtn: { position: 'absolute', right: 20, top: 20, zIndex: 10, padding: 8 },
   closeText: { fontSize: 18, color: '#666' },
   modalTitle: { fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
   label: { fontSize: 14, fontWeight: '600', marginBottom: 6 },

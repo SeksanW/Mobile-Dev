@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { PieChart, LineChart } from 'react-native-chart-kit';
 import { useFocusEffect } from 'expo-router';
 import { getExpenses, getBudgets, Expense, Budget } from '../../lib/storage';
@@ -85,6 +86,7 @@ export default function Dashboard() {
   const recentExpenses = expenses.slice(0, 5);
 
   return (
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Money Chart</Text>
@@ -186,6 +188,7 @@ export default function Dashboard() {
         )}
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -199,6 +202,7 @@ const chartConfig = {
 };
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: '#f5f5f5' },
   container: { flex: 1, backgroundColor: '#f5f5f5' },
   header: { padding: 16, paddingTop: 20, flexDirection: 'row', alignItems: 'center' },
   headerTitle: { fontSize: 20, fontWeight: 'bold', marginLeft: 8 },

@@ -4,8 +4,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const storage =
   Platform.OS === "web"
-    ? undefined // ← Web 用默认的 localStorage
-    : AsyncStorage; // ← 移动端用 AsyncStorage
+    ? undefined // ← Web with localStorage
+    : AsyncStorage; // ← mobile with AsyncStorage
 
 export const supabase = createClient(
   process.env.EXPO_PUBLIC_SUPABASE_URL!,
@@ -15,7 +15,7 @@ export const supabase = createClient(
       storage,
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: Platform.OS === "web", // ← Web 需要开启，移动端关闭
+      detectSessionInUrl: Platform.OS === "web", // ← open for Web, close for mobile
     },
   },
 );

@@ -1,11 +1,11 @@
 import {
-  View,
   Text,
   StyleSheet,
   ActivityIndicator,
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, AuthForm } from "../../lib/auth";
@@ -15,55 +15,59 @@ import FormInput from "../../components/FormInput";
 import PrimaryButton from "../../components/PrimaryButton";
 
 export default function SignIn() {
+  const [authError, setAuthError] = useState<string | null>(null);
+
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<AuthForm>({ resolver: zodResolver(authSchema) });
+  } = useForm<AuthForm>({ resolver: zodResolver(authSchema), defaultValues: { email: "", password: "" } });
 
   const onSubmit = async (data: AuthForm) => {
+    setAuthError(null);
     const { error } = await supabase.auth.signInWithPassword(data);
-    if (error) alert(error.message);
+    if (error) setAuthError(error.message);
   };
 
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <Text style={styles.title}>Welcome Back</Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <Text style={styles.title}>Welcome Back</Text>
 
-        <Controller
-          control={control}
-          name="email"
-          render={({ field }) => <FormInput placeholder="Email" {...field} />}
-        />
-        {errors.email && (
-          <Text style={styles.error}>{errors.email.message}</Text>
+      <Controller
+        control={control}
+        name="email"
+        render={({ field }) => <FormInput placeholder="Email" {...field} />}
+      />
+      {errors.email && (
+        <Text style={styles.error}>{errors.email.message}</Text>
+      )}
+
+      <Controller
+        control={control}
+        name="password"
+        render={({ field }) => (
+          <FormInput placeholder="Password" secureTextEntry {...field} />
         )}
+      />
+      {errors.password && (
+        <Text style={styles.error}>{errors.password.message}</Text>
+      )}
 
-        <Controller
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <FormInput placeholder="Password" secureTextEntry {...field} />
-          )}
-        />
-        {errors.password && (
-          <Text style={styles.error}>{errors.password.message}</Text>
-        )}
+      {authError && <Text style={styles.error}>{authError}</Text>}
 
-        {isSubmitting ? (
-          <ActivityIndicator />
-        ) : (
-          <PrimaryButton title="Sign In" onPress={handleSubmit(onSubmit)} />
-        )}
+      {isSubmitting ? (
+        <ActivityIndicator />
+      ) : (
+        <PrimaryButton title="Sign In" onPress={handleSubmit(onSubmit)} />
+      )}
 
-        <Text style={styles.link} onPress={() => router.push("sign-up")}>
-          Create account
-        </Text>
-      </KeyboardAvoidingView>
-    </View>
+      <Text style={styles.link} onPress={() => router.push("/(auth)/sign-up")}>
+        Create account
+      </Text>
+    </KeyboardAvoidingView>
   );
 }
 

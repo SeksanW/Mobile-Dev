@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { useState } from "react";
+import { Text, StyleSheet, ActivityIndicator, Platform, KeyboardAvoidingView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, AuthForm } from "../../lib/auth";
@@ -9,15 +10,21 @@ import FormInput from "../../components/FormInput";
 import PrimaryButton from "../../components/PrimaryButton";
 
 export default function SignUp() {
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<AuthForm>({
     resolver: zodResolver(authSchema),
+    defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = async (data: AuthForm) => {
+    setAuthError(null);
+    setSuccessMsg(null);
     const emailRedirectTo = Linking.createURL("auth/callback");
 
     const { error } = await supabase.auth.signUp({
@@ -27,19 +34,19 @@ export default function SignUp() {
     });
 
     if (error) {
-      alert(error.message);
+      setAuthError(error.message);
     } else {
-      // Optional: Supabase may require email confirmation
-      alert("Check your email to confirm your account");
-      router.replace("/(auth)/sign-in");
+      setSuccessMsg("Check your email to confirm your account.");
     }
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <Text style={styles.title}>Create Account</Text>
 
-      {/* Email */}
       <Controller
         control={control}
         name="email"
@@ -47,7 +54,6 @@ export default function SignUp() {
       />
       {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
 
-      {/* Password */}
       <Controller
         control={control}
         name="password"
@@ -59,18 +65,19 @@ export default function SignUp() {
         <Text style={styles.error}>{errors.password.message}</Text>
       )}
 
-      {/* Button */}
+      {authError && <Text style={styles.error}>{authError}</Text>}
+      {successMsg && <Text style={styles.success}>{successMsg}</Text>}
+
       {isSubmitting ? (
         <ActivityIndicator />
       ) : (
         <PrimaryButton title="Sign Up" onPress={handleSubmit(onSubmit)} />
       )}
 
-      {/* Link to Sign In */}
       <Text style={styles.link} onPress={() => router.push("/(auth)/sign-in")}>
         Already have an account? Sign in
       </Text>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -94,5 +101,9 @@ const styles = StyleSheet.create({
     marginTop: 16,
     color: "#4F46E5",
     textAlign: "center",
+  },
+  success: {
+    color: "green",
+    marginBottom: 8,
   },
 });

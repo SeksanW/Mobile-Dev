@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, AuthForm } from "../../lib/auth";
 import { supabase } from "../../lib/supabase";
 import { router } from "expo-router";
+import * as Linking from "expo-linking";
 import FormInput from "../../components/FormInput";
 import PrimaryButton from "../../components/PrimaryButton";
 
@@ -17,7 +18,13 @@ export default function SignUp() {
   });
 
   const onSubmit = async (data: AuthForm) => {
-    const { error } = await supabase.auth.signUp(data);
+    const emailRedirectTo = Linking.createURL("auth/callback");
+
+    const { error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: { emailRedirectTo },
+    });
 
     if (error) {
       alert(error.message);
